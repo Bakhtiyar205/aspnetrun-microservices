@@ -19,7 +19,7 @@ public class DiscountRepository : IDiscountRepository
             (_configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
 
         var coupon = await connection.QueryFirstOrDefaultAsync<Coupon>
-            ("Select * FROM Coupon WHERE ProductName = @ProductName",new { ProductName = productName});
+            ("SELECT * FROM Coupon WHERE ProductName = @ProductName", new { ProductName = productName });
         if (coupon == null)
             return new Coupon { ProductName = "No Discount", Amount = 0, Description = "No Discount Desc" };
         return coupon;

@@ -21,7 +21,7 @@ public class DiscountController : ControllerBase
     public async Task<ActionResult<Coupon>> GetDiscount(string productName)
     {
         var coupon = await _discountRepository.GetDiscount(productName);
-        return Ok(productName);
+        return Ok(coupon);
     }
 
     [HttpPost]

@@ -1,5 +1,7 @@
+using Discount.API.Extensions;
 using Discount.API.Repositories;
 using Microsoft.OpenApi.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var services= builder.Services;
@@ -25,5 +27,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MigrateDatabase<Program>();
 app.Run();
