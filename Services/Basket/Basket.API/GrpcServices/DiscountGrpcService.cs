@@ -11,7 +11,7 @@ public class DiscountGrpcService
         _discountProtoServiceClient = discountProtoServiceClient;
     }
 
-    public async Task<CouponModel> GetDiscount(string? productName) 
+    public async Task<CouponModel> GetDiscount(string? productName)
     {
         if (productName == null) return null;
         var discountRequest = new GetDiscountRequest { ProductName = productName };

@@ -12,11 +12,20 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = configuration.GetValue<string>("CacheSettings:ConnectionString");
 });
 services.AddScoped<IBasketRepository, BasketRepository>();
-services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(o=> o.Address = new Uri(configuration["GrpcSettings:DiscountUrl"]));
+services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(o => o.Address = new Uri(configuration["GrpcSettings:DiscountUrl"]));
+//    .ConfigurePrimaryHttpMessageHandler(() =>
+//{
+//    var handler = new HttpClientHandler();
+//    handler.ServerCertificateCustomValidationCallback =
+//        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+//    return handler;
+//})
+    ;
 services.AddScoped<DiscountGrpcService>();
 services.AddControllers();
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen(c=>
+services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Basket.API", Version = "v1" });
 });
@@ -28,7 +37,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>  c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.API v1"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.API v1"));
 }
 app.MapControllers();
 

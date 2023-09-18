@@ -1,12 +1,13 @@
 ﻿using Discount.Grpc.Entities;
 
-namespace Discount.Grpc.Repositories;
-
-public interface IDiscountRepository
+namespace Discount.Grpc.Repositories.Interfaces
 {
-    Task<Coupon> GetDiscount(string productName);
-    Task<bool> CreateDiscount(Coupon coupon);
-    Task<bool> UpdateDiscount(Coupon coupon);
-    Task<bool> DeleteDiscount(string productName);
+    public interface IDiscountRepository
+    {
+        Task<Coupon> GetDiscount(string productName);
 
+        Task<bool> CreateDiscount(Coupon coupon);
+        Task<bool> UpdateDiscount(Coupon coupon);
+        Task<bool> DeleteDiscount(string productName);
+    }
 }
