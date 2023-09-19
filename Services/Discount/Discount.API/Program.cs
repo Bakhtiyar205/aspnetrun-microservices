@@ -15,7 +15,6 @@ builder.Services.AddSwaggerGen(c=>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Discount.API", Version = "v1" });
 });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,5 +26,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-app.MigrateDatabase<Program>();
+//app.MigrateDatabase<Program>();
 app.Run();
