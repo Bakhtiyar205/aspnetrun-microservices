@@ -43,6 +43,7 @@ public static class HostExtension
             catch (NpgsqlException ex)
             {
                 logger.LogError(ex, "An error occured while migrating the postresql database");
+                logger.LogError(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
 
                 if (retryForAvailability < 50)
                 {
