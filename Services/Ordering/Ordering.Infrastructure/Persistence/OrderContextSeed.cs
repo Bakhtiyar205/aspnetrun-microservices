@@ -4,7 +4,7 @@ using Ordering.Domain.Entities;
 namespace Ordering.Infrastructure.Persistence;
 public class OrderContextSeed
 {
-    public static async Task SendAsync(OrderContext orderContext, ILogger<OrderContextSeed> logger)
+    public static async Task SeedAsync(OrderContext orderContext, ILogger<OrderContextSeed> logger)
     {
         if(!orderContext.Orders.Any())
         {
