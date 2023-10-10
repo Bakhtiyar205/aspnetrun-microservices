@@ -31,7 +31,7 @@ services:
     container_name: orderdb
     environment:
         - ACCEPT_EULA=Y
-        - SA_PASSWORD="gs1905"
+        - SA_PASSWORD="BkH_123456789"
     restart: always
     ports:
         -  "1433:1433"
@@ -101,4 +101,15 @@ services:
      - discountdb
     ports:
       - "8003:80"
+
+  ordering.api:
+    container_name: ordering.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=BkH_123456789;" 
+    depends_on:
+        - orderdb
+    ports:
+        - "8004:80"
+  
 
