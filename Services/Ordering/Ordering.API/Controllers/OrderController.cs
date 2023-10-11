@@ -47,7 +47,7 @@ public class OrderController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("{id}",Name = "DeleteOrder")]
+    [HttpDelete("{id}",Name = "DeleteOrder")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
