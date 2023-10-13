@@ -3,6 +3,7 @@ using Basket.API.Entities;
 using Basket.API.GrpcServices;
 using Basket.API.Repositories;
 using EventBus.Messages.Events;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -12,25 +13,31 @@ namespace Basket.API.Controllers;
 [Route("api/v1/[controller]")]
 public class BasketController : ControllerBase
 {
-   private readonly IBasketRepository _basketRepository;
-   private readonly DiscountGrpcService _discoubtGrpcService;
-   private readonly IMapper _mapper;
+    private readonly IBasketRepository _basketRepository;
+    private readonly DiscountGrpcService _discoubtGrpcService;
+    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IMapper _mapper;
+    private readonly ILogger<BasketController> _logger;
 
     public BasketController(IBasketRepository basketRepository,
         DiscountGrpcService discoubtGrpcService,
-        IMapper mapper)
+        IMapper mapper,
+        IPublishEndpoint publishEndpoint,
+        ILogger<BasketController> logger)
     {
         _basketRepository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
         _discoubtGrpcService = discoubtGrpcService ?? throw new ArgumentNullException(nameof(discoubtGrpcService));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _publishEndpoint = publishEndpoint;
+        _logger = logger;
     }
 
 
-    [HttpGet("[action]/{userName}", Name ="GetBasket")]
+    [HttpGet("[action]/{userName}", Name = "GetBasket")]
     [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)
     {
-        var basket = await _basketRepository.GetBasketAsync(userName); 
+        var basket = await _basketRepository.GetBasketAsync(userName);
         return Ok(basket ?? new ShoppingCart(userName));
     }
 
@@ -47,7 +54,7 @@ public class BasketController : ControllerBase
         return Ok(await _basketRepository.UpdateBasketAsync(shoppingCart));
     }
 
-    [HttpDelete("{userName}", Name ="DeleteBasket")]
+    [HttpDelete("{userName}", Name = "DeleteBasket")]
     [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> DeleteBasket(string userName)
     {
@@ -70,8 +77,8 @@ public class BasketController : ControllerBase
 
         //send checkout event to rabbitmq
         var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
-        //_eventBus.PublishBaketCheckout
-        //eventMessage.TotalPrice = basket.TotalPrice;
+        eventMessage.TotalPrice = basket.TotalPrice;
+        await _publishEndpoint.Publish(eventMessage);
 
         //remove the basket
         await _basketRepository.DeleteBasketAsync(basket.UserName);

@@ -8,6 +8,6 @@ public class BasketProfile : Profile
 {
     public BasketProfile()
     {
-        CreateMap<BasketCheckout, BasketCheckoutEvent>();
+        CreateMap<BasketCheckout, BasketCheckoutEvent>().ReverseMap();
     }
 }
