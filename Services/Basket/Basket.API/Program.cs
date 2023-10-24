@@ -2,6 +2,7 @@ using Basket.API.GrpcServices;
 using Basket.API.Repositories;
 using Discount.Grpc.Protos;
 using MassTransit;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,7 +42,12 @@ services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Basket.API", Version = "v1" });
 });
 
-
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    // Setup a HTTP/2 endpoint without TLS.
+//    options.ListenLocalhost(8003, o => o.Protocols =
+//        HttpProtocols.Http2);
+//});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

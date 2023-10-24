@@ -16,12 +16,12 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddGrpc();
 builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    // Setup a HTTP/2 endpoint without TLS.
-    options.ListenLocalhost(5003, o => o.Protocols =
-        HttpProtocols.Http2);
-});
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    // Setup a HTTP/2 endpoint without TLS.
+//    options.ListenLocalhost(8003, o => o.Protocols =
+//        HttpProtocols.Http2);
+//});
 var app = builder.Build();
 
 
