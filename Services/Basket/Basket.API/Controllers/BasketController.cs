@@ -33,7 +33,7 @@ public class BasketController : ControllerBase
     }
 
 
-    [HttpGet("[action]/{userName}", Name = "GetBasket")]
+    [HttpGet("{userName}", Name = "GetBasket")]
     [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)
     {

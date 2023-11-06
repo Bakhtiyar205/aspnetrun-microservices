@@ -121,7 +121,7 @@
     },
     //Order API
     {
-      "DownstreamPathTemplate": "/api/v1/Order/{userName}",
+      "DownstreamPathTemplate": "/api/Order/{userName}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
